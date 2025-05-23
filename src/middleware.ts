@@ -9,27 +9,29 @@ function getPreferredLanguage(request: NextRequest): string {
   const acceptLanguage = request.headers.get('accept-language');
   if (acceptLanguage) {
     // Parse the Accept-Language header and find the first matching language
-    const preferredLanguages = acceptLanguage.split(',').map((lang) => {
+    const preferredLanguages = acceptLanguage.split(',').map(lang => {
       const [language] = lang.trim().split(';');
       return language;
     });
 
     // Check for exact match first
     for (const lang of preferredLanguages) {
-      if (supportedLanguages.includes(lang)) {
+      if (lang && supportedLanguages.includes(lang)) {
         return lang;
       }
     }
 
     // Then check for language prefix matches
     for (const lang of preferredLanguages) {
-      const prefix = lang.split('-')[0];
-      if (prefix === 'en' && supportedLanguages.includes('en')) {
-        return 'en';
-      } else if (prefix === 'ja' && supportedLanguages.includes('ja')) {
-        return 'ja';
-      } else if (prefix === 'zh' && supportedLanguages.includes('zh-TW')) {
-        return 'zh-TW';
+      if (lang) {
+        const prefix = lang.split('-')[0];
+        if (prefix === 'en' && supportedLanguages.includes('en')) {
+          return 'en';
+        } else if (prefix === 'ja' && supportedLanguages.includes('ja')) {
+          return 'ja';
+        } else if (prefix === 'zh' && supportedLanguages.includes('zh-TW')) {
+          return 'zh-TW';
+        }
       }
     }
   }
@@ -41,7 +43,11 @@ function getPreferredLanguage(request: NextRequest): string {
 // Function to check if the URL already has a language prefix
 function hasLanguagePrefix(pathname: string): boolean {
   const segments = pathname.split('/');
-  return segments.length > 1 && supportedLanguages.includes(segments[1]);
+  return (
+    segments.length > 1 &&
+    segments[1] !== '' &&
+    supportedLanguages.includes(segments[1] as string)
+  );
 }
 
 // The actual middleware function

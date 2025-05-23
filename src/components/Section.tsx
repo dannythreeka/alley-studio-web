@@ -6,6 +6,7 @@ interface SectionProps {
   children: ReactNode;
   className?: string;
   fullWidth?: boolean;
+  immediate?: boolean; // New property to control whether to display immediately
 }
 
 const Section: FC<SectionProps> = ({
@@ -13,17 +14,31 @@ const Section: FC<SectionProps> = ({
   children,
   className = '',
   fullWidth = false,
+  immediate = false, // Default to false, maintain original behavior
 }) => {
   return (
     <motion.section
       id={id}
-      className={`py-16 md:py-24 ${className}`}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      className={`py-12 md:py-20 ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      // If immediate is true, use animate instead of whileInView
+      {...(immediate
+        ? { animate: { opacity: 1, y: 0 } }
+        : { whileInView: { opacity: 1, y: 0 } })}
+      // For non-immediate display, add viewport configuration
+      {...(!immediate && {
+        viewport: {
+          once: true, // Trigger only once
+          margin: '-100px 0px', // Trigger animation early
+        },
+      })}
+      transition={{ duration: 0.4 }}
     >
-      <div className={fullWidth ? 'w-full' : 'container mx-auto px-4 md:px-8'}>
+      <div
+        className={`${
+          fullWidth ? 'w-full' : 'container mx-auto px-4 md:px-8'
+        } ${!immediate && 'border-b border-accent pb-6'}`}
+      >
         {children}
       </div>
     </motion.section>

@@ -1,18 +1,27 @@
 'use client';
 
 import { FC } from 'react';
-import useTranslation from '@/hooks/useTranslation';
 
-// Add skip_to_content to translations
 const SkipToContentLink: FC = () => {
-  const { t } = useTranslation();
+  const handleSkip = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const mainContent = document.querySelector('main');
+    if (mainContent) {
+      mainContent.tabIndex = -1;
+      mainContent.focus();
+      setTimeout(() => {
+        mainContent.removeAttribute('tabindex');
+      }, 1000);
+    }
+  };
 
   return (
     <a
-      href="#about"
-      className="absolute top-0 left-0 p-3 -translate-y-full focus:translate-y-0 bg-primary text-light z-50 focus:outline-none transition-transform"
+      href="#main"
+      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-light focus:rounded-sm focus:shadow-sm"
+      onClick={handleSkip}
     >
-      {t('skip_to_content')}
+      Skip to content
     </a>
   );
 };

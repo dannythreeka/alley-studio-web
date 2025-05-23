@@ -94,7 +94,7 @@ const PageLoader: FC = () => {
               <motion.div className="relative" variants={logoVariants}>
                 <div className="w-24 h-24 relative">
                   <Image
-                    src="/images/logo.svg"
+                    src="/images/alley-studio-logo.svg"
                     alt="Loading"
                     fill
                     className="object-contain"
@@ -115,14 +115,14 @@ const PageLoader: FC = () => {
                 className="text-3xl font-bold tracking-wider font-[var(--font-space-grotesk)] text-primary"
                 variants={textVariants}
               >
-                MINI DEV
+                ALLEY STUDIO
               </motion.div>
 
               <motion.div
                 className="text-md text-gray font-[var(--font-noto-sans-jp)]"
                 variants={textVariants}
               >
-                微開發工作室
+                巷製所
               </motion.div>
             </div>
           </motion.div>

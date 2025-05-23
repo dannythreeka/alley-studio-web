@@ -37,7 +37,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
-        <div className="absolute inset-0 bg-primary/10 hover:bg-primary/0 transition-colors duration-300"></div>
+        <div className="absolute inset-0 bg-primary/10 hover:bg-primary/0 transition-colors duration-300" />
       </div>
 
       <div className="p-6">
@@ -102,7 +102,7 @@ const WorksSection: FC = () => {
 
       <div className="flex justify-center">
         <Button variant="secondary" href="#contact">
-          Let's Discuss Your Project
+          Let&apos;s Discuss Your Project
         </Button>
       </div>
     </Section>

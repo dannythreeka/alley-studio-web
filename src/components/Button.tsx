@@ -1,12 +1,9 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
-import {
-  Button as MUIButton,
-  ButtonProps as MUIButtonProps,
-} from '@mui/material';
+import { FC, ReactNode, ButtonHTMLAttributes } from 'react';
+import Link from 'next/link';
 
-interface ButtonProps extends Omit<MUIButtonProps, 'variant' | 'color'> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';
   className?: string;
@@ -23,54 +20,47 @@ const Button: FC<ButtonProps> = ({
   disabled = false,
   ...restProps
 }) => {
-  // Map custom variants to MUI variants and colors
-  let muiVariant: 'contained' | 'outlined' = 'contained';
-  let muiColor: 'primary' | 'secondary' = 'primary';
+  // Base styles
+  const baseStyles =
+    'inline-flex items-center justify-center py-2 px-4 rounded-sm text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
 
-  switch (variant) {
-    case 'primary':
-      muiVariant = 'contained';
-      muiColor = 'primary';
-      break;
-    case 'secondary':
-      muiVariant = 'contained';
-      muiColor = 'secondary';
-      break;
-    case 'outline':
-      muiVariant = 'outlined';
-      muiColor = 'primary';
-      break;
+  // Variant styles
+  const variantStyles = {
+    primary: 'bg-primary text-white hover:bg-primary/90 focus:ring-primary/50',
+    secondary:
+      'bg-accent text-foreground hover:bg-accent/80 focus:ring-accent/50',
+    outline:
+      'border border-primary text-primary hover:bg-primary/10 focus:ring-primary/30',
+  };
+
+  // Disabled styles
+  const disabledStyles = disabled
+    ? 'opacity-50 cursor-not-allowed'
+    : 'cursor-pointer';
+
+  // Combine all styles
+  const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${disabledStyles} ${className}`;
+
+  // Return link if href is provided
+  if (href) {
+    return (
+      <Link href={href} className={combinedStyles}>
+        {children}
+      </Link>
+    );
   }
 
+  // Return button otherwise
   return (
-    <MUIButton
-      variant={muiVariant}
-      color={muiColor}
-      onClick={onClick}
-      href={href}
+    <button
       type={type}
+      className={combinedStyles}
+      onClick={onClick}
       disabled={disabled}
-      className={className}
-      sx={{
-        px: 3,
-        py: 1.5,
-        borderRadius: '6px',
-        fontWeight: 500,
-        transition: 'all 0.3s',
-        '&:hover': {
-          transform: disabled ? 'none' : 'scale(1.03)',
-        },
-        '&:active': {
-          transform: disabled ? 'none' : 'scale(0.98)',
-        },
-        ...(variant === 'outline' && {
-          borderWidth: 2,
-        }),
-      }}
       {...restProps}
     >
       {children}
-    </MUIButton>
+    </button>
   );
 };
 

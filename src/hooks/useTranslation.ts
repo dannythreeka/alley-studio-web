@@ -18,14 +18,14 @@ export const useTranslation = () => {
 
       // Check if the key exists in current language strings
       if (langStrings && key in langStrings) {
-        return langStrings[key];
+        return langStrings[key] || key;
       }
 
       // Fallback to default language (zh-TW)
       if (currentLang !== 'zh-TW') {
         const defaultStrings = translations['zh-TW'] as TranslationStrings;
         if (defaultStrings && key in defaultStrings) {
-          return defaultStrings[key];
+          return defaultStrings[key] || key;
         }
       }
     } catch (error) {

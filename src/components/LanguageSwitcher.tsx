@@ -1,9 +1,10 @@
 'use client';
 
 import { FC, useState, useEffect } from 'react';
-import { IconButton, Menu, MenuItem } from '@mui/material';
-import LanguageIcon from '@mui/icons-material/Language';
 import { useLanguage } from '@/context/LanguageProvider';
+import IconButton from './IconButton';
+import { LanguageIcon } from './icons';
+import { Menu, MenuItem } from './navigation/Menu';
 
 type LanguageCode = 'zh-TW' | 'en' | 'ja';
 
@@ -28,19 +29,16 @@ const LanguageSwitcher: FC = () => {
   // Only render the full component on client-side
   if (!mounted) {
     return (
-      <IconButton
-        color="primary"
-        aria-label="選擇語言"
-        sx={{ ml: 1, opacity: 0.5 }}
-        disabled
-      >
-        <LanguageIcon />
+      <IconButton aria-label="選擇語言" className="ml-1 opacity-50" disabled>
+        <LanguageIcon className="w-5 h-5" />
       </IconButton>
     );
   }
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuOpen = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    if (event) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleMenuClose = () => {
@@ -56,51 +54,31 @@ const LanguageSwitcher: FC = () => {
     <>
       <IconButton
         onClick={handleMenuOpen}
-        color="primary"
         aria-label="Switch language"
         aria-haspopup="true"
         aria-expanded={Boolean(anchorEl)}
         aria-controls={Boolean(anchorEl) ? 'language-menu' : undefined}
-        title="Switch language"
-        sx={{
-          ml: 1,
-          bgcolor: anchorEl ? 'rgba(0, 0, 0, 0.08)' : 'transparent',
-          '&:hover': {
-            bgcolor: 'rgba(0, 0, 0, 0.12)',
-          },
-        }}
+        className="ml-1 border border-accent/30 hover:border-primary/50"
       >
-        <LanguageIcon />
+        <LanguageIcon className="w-5 h-5" />
       </IconButton>
       <Menu
-        id="language-menu"
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        MenuListProps={{
-          'aria-labelledby': 'language-switch-button',
-        }}
       >
-        {languages.map((lang) => (
-          <MenuItem
-            key={lang.code}
-            onClick={() => switchLanguage(lang.code)}
-            selected={language === lang.code}
-            sx={{
-              minWidth: '120px',
-              fontWeight: language === lang.code ? 'bold' : 'normal',
-            }}
-          >
-            <span style={{ marginRight: '8px' }}>{lang.flag}</span>
-            {lang.name}
+        {languages.map(lang => (
+          <MenuItem key={lang.code} onClick={() => switchLanguage(lang.code)}>
+            <div className="flex items-center">
+              <span className="mr-2">{lang.flag}</span>
+              <span
+                className={`${
+                  language === lang.code ? 'font-medium text-primary' : ''
+                }`}
+              >
+                {lang.name}
+              </span>
+            </div>
           </MenuItem>
         ))}
       </Menu>

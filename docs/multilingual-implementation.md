@@ -1,6 +1,6 @@
 # Multilingual Implementation Documentation
 
-This document explains how the multilingual feature is implemented in the MINI DEV website.
+This document explains how the multilingual feature is implemented in the Alley website.
 
 ## Overview
 

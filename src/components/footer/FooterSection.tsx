@@ -1,75 +1,75 @@
 import { FC } from 'react';
-import { motion } from 'framer-motion';
 import Logo from '../Logo';
 import Section from '../Section';
 import ContactForm from './ContactForm';
+import useTranslation from '@/hooks/useTranslation';
 
 const FooterSection: FC = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useTranslation();
 
   return (
-    <footer className="bg-primary text-light">
+    <footer className="bg-background border-t border-accent text-foreground">
       <Section id="contact">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
-            <Logo className="mb-6 text-light" />
-            <p className="mb-6 opacity-80">
-              Modern technical solutions with Japanese-inspired design
-              precision.
-            </p>
-            <p className="opacity-80 font-[var(--font-noto-sans-jp)]">
-              具有日式設計精確度的現代技術解決方案。
-            </p>
+            <Logo className="mb-6" />
+            {/* <p className="mb-6 opacity-80 text-sm">{t('footer_slogan')}</p>
+            <p className="opacity-80 text-sm font-[var(--font-noto-sans-jp)]">
+              {t('footer_slogan_jp')}
+            </p> */}
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4 font-[var(--font-space-grotesk)]">
-              Quick Links
+            <h3 className="text-base font-medium mb-4 font-[var(--font-noto-sans-jp)] tracking-wide">
+              {t('quick_links')}
             </h3>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#about"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
+                  className="opacity-80 hover:opacity-100 transition-opacity text-sm border-b border-transparent hover:border-current"
                 >
-                  About
+                  {t('about')}
                 </a>
               </li>
               <li>
                 <a
                   href="#services"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
+                  className="opacity-80 hover:opacity-100 transition-opacity text-sm border-b border-transparent hover:border-current"
                 >
-                  Services
+                  {t('services')}
                 </a>
               </li>
               <li>
                 <a
                   href="#works"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
+                  className="opacity-80 hover:opacity-100 transition-opacity text-sm border-b border-transparent hover:border-current"
                 >
-                  Works
+                  {t('work')}
                 </a>
               </li>
               <li>
                 <a
                   href="#contact"
-                  className="opacity-80 hover:opacity-100 transition-opacity"
+                  className="opacity-80 hover:opacity-100 transition-opacity text-sm border-b border-transparent hover:border-current"
                 >
-                  Contact
+                  {t('contact')}
                 </a>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-xl font-bold mb-4 font-[var(--font-space-grotesk)]">
-              Contact Info
+            <h3 className="text-base font-medium mb-4 font-[var(--font-noto-sans-jp)] tracking-wide">
+              {t('contact_info')}
             </h3>
-            <div className="space-y-2 opacity-80">
-              <p>Email: hello@minidev.studio</p>
-              <p>Phone: +81 (03) 1234-5678</p>
-              <p>Address: Shibuya, Tokyo, Japan</p>
+            <div className="space-y-2 opacity-80 text-sm">
+              <p>{t('email_title')}: jdpco.danny@gmail.com </p>
+              {/* <p>Phone: +81 (03) 1234-5678</p> */}
+              <p>
+                {t('address_title')}: {t('address_content')}
+              </p>
             </div>
           </div>
 
@@ -78,14 +78,14 @@ const FooterSection: FC = () => {
           </div>
         </div>
 
-        <hr className="border-light/20 my-8" />
+        <hr className="border-accent my-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="opacity-80 text-sm">
-            &copy; {currentYear} MINI DEV (微開發工作室). All rights reserved.
+          <p className="opacity-80 text-xs tracking-wide">
+            &copy; {currentYear} {t('studio_name')}. {t('all_rights_reserved')}.
           </p>
 
-          <div className="flex space-x-4 mt-4 md:mt-0">
+          {/* <div className="flex space-x-4 mt-4 md:mt-0">
             <a
               href="#"
               className="opacity-80 hover:opacity-100 transition-opacity"
@@ -136,7 +136,7 @@ const FooterSection: FC = () => {
                 />
               </svg>
             </a>
-          </div>
+          </div> */}
         </div>
       </Section>
     </footer>

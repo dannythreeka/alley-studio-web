@@ -16,21 +16,20 @@ const ServiceCard: FC<ServiceCardProps> = ({ title, iconEmoji, delay, id }) => {
 
   return (
     <motion.div
-      className="bg-background p-6 rounded-lg shadow-md border border-gray-light hover:border-primary transition-all duration-300"
+      className="bg-background p-6 rounded-sm shadow-sm  transition-all"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -5, boxShadow: '0 10px 30px -15px rgba(0,0,0,0.2)' }}
+      whileHover={{ y: -5, boxShadow: '0 10px 20px -10px rgba(0,0,0,0.1)' }}
     >
-      <div className="text-4xl mb-4">{iconEmoji}</div>
-      <h3 className="text-xl font-bold mb-1 font-[var(--font-space-grotesk)]">
+      <div className="text-3xl mb-4">{iconEmoji}</div>
+      <h3 className="text-xl font-medium mb-2 font-[var(--font-noto-sans-tc)]">
         {title}
       </h3>
-      <p className="text-primary font-[var(--font-noto-sans-jp)] text-sm mb-3">
-        {t(id + '_title')}
+      <p className="text-gray text-md opacity-90 italic">
+        {t(id + '_description')}
       </p>
-      <p className="text-gray">{t(id + '_description')}</p>
     </motion.div>
   );
 };
@@ -40,27 +39,27 @@ const ServicesSection: FC = () => {
 
   const services = [
     {
-      title: 'Web Development',
+      title: t('service_1_title'),
       id: 'service_1',
       iconEmoji: '🌐',
       delay: 0.1,
     },
     {
-      title: 'System Integration',
+      title: t('service_2_title'),
       id: 'service_2',
-      iconEmoji: '🔄',
+      iconEmoji: '🤖',
       delay: 0.2,
     },
     {
-      title: 'Project Management',
+      title: t('service_3_title'),
       id: 'service_3',
-      iconEmoji: '📊',
+      iconEmoji: '✨',
       delay: 0.3,
     },
     {
-      title: 'Tech Consulting',
+      title: t('service_4_title'),
       id: 'service_4',
-      iconEmoji: '💡',
+      iconEmoji: '🚀',
       delay: 0.4,
     },
   ];

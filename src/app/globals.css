@@ -4,14 +4,13 @@
 
 :root {
   /* Light mode */
-  --background: #f7f7f7;
-  --foreground: #0f0f0f;
-  --primary: #2e3861;
-  --accent: #e63946;
-  --accent-light: #f8d7da;
-  --secondary: #457b9d;
-  --light: #f1faee;
-  --dark: #121212;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --primary: #2e2e2e;
+  --accent: #e6e6e6;
+  --secondary: #6d6d6d;
+  --light: #f8f8f8;
+  --dark: #1a1a1a;
   --gray: #6c757d;
   --gray-light: #e9ecef;
   --gray-dark: #343a40;
@@ -20,14 +19,13 @@
 
 .dark {
   /* Dark mode */
-  --background: #0f0f0f;
-  --foreground: #f7f7f7;
-  --primary: #4c5b9b;
-  --accent: #ff4d5e;
-  --accent-light: #382d30;
-  --secondary: #6597b7;
-  --light: #2a3439;
-  --dark: #f7f7f7;
+  --background: #121212;
+  --foreground: #ffffff;
+  --primary: #e0e0e0;
+  --accent: #2a2a2a;
+  --secondary: #a0a0a0;
+  --light: #2a2a2a;
+  --dark: #ffffff;
   --gray: #adb5bd;
   --gray-light: #343a40;
   --gray-dark: #e9ecef;

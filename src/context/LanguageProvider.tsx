@@ -13,6 +13,7 @@ type LanguageCode = 'zh-TW' | 'en' | 'ja';
 
 interface LanguageContextType {
   language: LanguageCode;
+  // eslint-disable-next-line no-unused-vars
   setLanguage: (lang: LanguageCode) => void;
 }
 

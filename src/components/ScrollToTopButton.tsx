@@ -39,19 +39,19 @@ const ScrollToTopButton: FC = () => {
       {isVisible && (
         <motion.button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 z-40 p-3 rounded-full bg-primary text-light shadow-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-light"
+          className="fixed bottom-4 right-4 z-40 p-3 rounded-sm bg-primary text-light shadow-sm hover:bg-opacity-90 focus:outline-none focus:ring-1 focus:ring-accent"
           aria-label="Scroll to top"
           initial="hidden"
           animate="visible"
           exit="hidden"
           variants={buttonVariants}
           transition={{ duration: 0.3 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

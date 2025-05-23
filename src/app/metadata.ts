@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
 export const siteConfig = {
-  name: 'MINI DEV',
+  name: '巷製所 (Alley Studio)',
   description:
-    'Modern technical solutions with Japanese-inspired design precision.',
-  url: 'https://minidev.example.com',
-  ogImage: 'https://minidev.example.com/og-image.jpg',
+    'Crafting digital experiences with Japanese minimalist design principles.',
+  url: 'https://alley-studio.example.com',
+  ogImage: 'https://alley-studio.example.com/alley-studio-favicon.svg',
 };
 
 export const metadata: Metadata = {
@@ -19,19 +19,19 @@ export const metadata: Metadata = {
     'web development',
     'design',
     'japanese',
-    'technical',
-    'modern',
+    'minimalist',
+    'craftsmanship',
     'next.js',
     'react',
     'tailwindcss',
   ],
   authors: [
     {
-      name: 'MINI DEV Studio',
+      name: '巷製所 (Alley Studio)',
       url: siteConfig.url,
     },
   ],
-  creator: 'MINI DEV Studio',
+  creator: 'Alley Studio',
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
+    icon: '/alley-studio-logo.svg',
+    shortcut: '/alley-studio-logo.svg',
     apple: '/apple-touch-icon.png',
   },
   manifest: `${siteConfig.url}/manifest.json`,

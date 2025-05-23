@@ -2,43 +2,19 @@
 
 import { FC, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  Button,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Container,
-  useScrollTrigger,
-  Slide,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import useViewport from '@/hooks/useViewport';
 import useTranslation from '@/hooks/useTranslation';
-
-// Hide AppBar on scroll
-function HideOnScroll({ children }: { children: React.ReactElement }) {
-  const trigger = useScrollTrigger();
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
+import IconButton from './IconButton';
+import { MenuIcon, CloseIcon } from './icons';
 
 const Navbar: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isMobile } = useViewport();
+  const { t } = useTranslation();
 
   // Handle scroll event to change navbar appearance
   useEffect(() => {
@@ -53,18 +29,6 @@ const Navbar: FC = () => {
     };
   }, []);
 
-  // Close mobile menu on escape key press
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isMobileMenuOpen]);
-
   // Close mobile menu when viewport changes to desktop
   useEffect(() => {
     if (!isMobile && isMobileMenuOpen) {
@@ -72,197 +36,107 @@ const Navbar: FC = () => {
     }
   }, [isMobile, isMobileMenuOpen]);
 
-  // Prevent scrolling when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isMobileMenuOpen]);
-
-  const { t } = useTranslation();
-
-  const navLinks = [
-    { name: t('about'), href: '#about' },
-    { name: t('services'), href: '#services' },
-    { name: t('work'), href: '#works' },
-    { name: t('contact'), href: '#contact' },
+  const navItems = [
+    { label: t('about'), href: '#about' },
+    { label: t('services'), href: '#services' },
+    { label: t('work'), href: '#works' },
+    { label: t('contact'), href: '#contact' },
   ];
 
   return (
     <>
-      <HideOnScroll>
-        <AppBar
-          position="fixed"
-          elevation={isScrolled ? 2 : 0}
-          sx={{
-            bgcolor: isScrolled ? 'background.default' : 'transparent',
-            backdropFilter: isScrolled ? 'blur(8px)' : 'none',
-            py: isScrolled ? 0 : { xs: 0.5, md: 1 },
-            transition: 'all 0.3s',
-            boxShadow: isScrolled ? 1 : 0,
-          }}
-        >
-          <Container>
-            <Toolbar
-              disableGutters
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                px: 2,
-              }}
-            >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <a href="#" style={{ display: 'block' }}>
-                  <Logo />
-                </a>
-              </motion.div>
-
-              {/* Desktop Menu */}
-              <Box
-                sx={{
-                  display: { xs: 'none', md: 'flex' },
-                  alignItems: 'center',
-                  gap: 4,
-                }}
-              >
-                {navLinks.map((link, index) => (
-                  <motion.div key={index} whileHover={{ scale: 1.05 }}>
-                    <Button
-                      href={link.href}
-                      sx={{
-                        color: 'text.primary',
-                        fontWeight: 500,
-                        '&:hover': {
-                          color: 'primary.main',
-                          bgcolor: 'transparent',
-                          borderBottomColor: 'primary.main',
-                          borderBottomStyle: 'solid',
-                          borderBottomWidth: '2px',
-                        },
-                        textTransform: 'none',
-                        fontSize: '1rem',
-                        pb: 0.5,
-                      }}
-                    >
-                      {link.name}
-                    </Button>
-                  </motion.div>
-                ))}
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <LanguageSwitcher />
-                  <ThemeToggle />
-                </Box>
-              </Box>
-
-              {/* Mobile Menu Button */}
-              <IconButton
-                edge="end"
-                color="inherit"
-                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-                aria-expanded={isMobileMenuOpen}
-                sx={{ display: { md: 'none' } }}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-              </IconButton>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      </HideOnScroll>
-
-      {/* Mobile Menu */}
-      <Drawer
-        anchor="top"
-        open={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': {
-            height: '100%',
-            backgroundColor: 'background.default',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-        }}
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-background/80 backdrop-blur-md shadow-sm'
+            : 'bg-transparent'
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
       >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 3,
-          }}
-        >
-          <List sx={{ width: '100%', textAlign: 'center' }}>
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <ListItem
-                  sx={{
-                    justifyContent: 'center',
-                    py: 2,
-                  }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Button
-                    href={link.href}
-                    sx={{
-                      color: 'text.primary',
-                      fontFamily: 'var(--font-space-grotesk)',
-                      fontSize: '1.5rem',
-                      fontWeight: 'bold',
-                      '&:hover': {
-                        color: 'primary.main',
-                        backgroundColor: 'transparent',
-                      },
-                    }}
-                  >
-                    <ListItemText primary={link.name} />
-                  </Button>
-                </ListItem>
-              </motion.div>
-            ))}
-          </List>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: navLinks.length * 0.1 }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-                justifyContent: 'center',
-              }}
-            >
-              <LanguageSwitcher />
-              <ThemeToggle />
-            </Box>
-          </motion.div>
-        </Box>
-      </Drawer>
+        <nav className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <Logo />
 
-      {/* Toolbar to offset content under fixed AppBar */}
-      <Toolbar sx={{ mb: { xs: 2, md: 4 } }} />
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex md:items-center space-x-6">
+              {navItems.map(item => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="text-foreground hover:text-primary py-2 transition-colors duration-200 text-sm"
+                >
+                  {item.label}
+                </a>
+              ))}
+
+              <div className="flex items-center ml-2">
+                <ThemeToggle />
+                <div className="ml-2" />
+                <LanguageSwitcher />
+              </div>
+            </div>
+
+            {/* Mobile Navigation Toggle */}
+            <div className="md:hidden flex items-center">
+              <ThemeToggle />
+              <div className="ml-2" />
+              <LanguageSwitcher />
+              <IconButton
+                onClick={toggleMobileMenu}
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                className="ml-1"
+              >
+                {isMobileMenuOpen ? (
+                  <CloseIcon className="w-5 h-5" />
+                ) : (
+                  <MenuIcon className="w-5 h-5" />
+                )}
+              </IconButton>
+            </div>
+          </div>
+        </nav>
+      </motion.header>
+
+      {/* Mobile Menu Drawer */}
+      <div
+        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${
+          isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={toggleMobileMenu}
+      />
+
+      <div
+        className={`fixed right-0 top-0 h-full w-[250px] bg-background z-50 shadow-lg transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex justify-end p-4">
+            <IconButton onClick={toggleMobileMenu} aria-label="Close menu">
+              <CloseIcon className="w-5 h-5" />
+            </IconButton>
+          </div>
+
+          <nav className="py-6">
+            {navItems.map(item => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="block px-6 py-3 text-foreground hover:bg-accent/10 hover:text-primary transition-colors duration-200"
+                onClick={toggleMobileMenu}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
     </>
   );
 };

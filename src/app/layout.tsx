@@ -1,10 +1,9 @@
-import { Inter, Noto_Sans_JP, Space_Grotesk } from 'next/font/google';
+import { Inter, Noto_Sans_JP, Noto_Sans_TC } from 'next/font/google';
 import { Metadata } from 'next';
 import './globals.css';
 import { metadata as siteMetadata } from './metadata';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import LanguageProvider from '@/context/LanguageProvider';
-import EmotionRootStyleRegistry from '@/theme/EmotionProvider';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -17,9 +16,10 @@ const notoSansJP = Noto_Sans_JP({
   weight: ['400', '500', '700'],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: '--font-space-grotesk',
+const notoSansTC = Noto_Sans_TC({
+  variable: '--font-noto-sans-tc',
   subsets: ['latin'],
+  weight: ['400', '500', '700'],
 });
 
 // Export metadata
@@ -27,16 +27,14 @@ export const metadata: Metadata = siteMetadata;
 
 export default function RootLayout({
   children,
-  params,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-  params?: { lang?: string };
-}>) {
+}) {
   // Determine the HTML lang attribute based on URL path
   // This will be used for SEO and accessibility
   const getHtmlLang = () => {
-    if (params?.lang === 'en') return 'en';
-    if (params?.lang === 'ja') return 'ja';
+    // Next.js automatically applies the root layout to all pages, so we cannot get the current language from params
+    // In actual deployment, language switching will be handled by middleware
     return 'zh-TW'; // Default to Traditional Chinese
   };
 
@@ -47,16 +45,32 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
         />
-        <link rel="icon" href="/mini-dev-favicon.svg" type="image/svg+xml" />
-        <meta name="theme-color" content="#2F80ED" />
+        <link
+          rel="icon"
+          href="/alley-studio-favicon.svg"
+          type="image/svg+xml"
+        />
+        <meta name="theme-color" content="#121212" />
 
         {/* hreflang tags for SEO */}
-        <link rel="alternate" href="https://mini-dev.com/" hrefLang="zh-TW" />
-        <link rel="alternate" href="https://mini-dev.com/en" hrefLang="en" />
-        <link rel="alternate" href="https://mini-dev.com/ja" hrefLang="ja" />
         <link
           rel="alternate"
-          href="https://mini-dev.com/"
+          href="https://alley-studio.com/"
+          hrefLang="zh-TW"
+        />
+        <link
+          rel="alternate"
+          href="https://alley-studio.com/en"
+          hrefLang="en"
+        />
+        <link
+          rel="alternate"
+          href="https://alley-studio.com/ja"
+          hrefLang="ja"
+        />
+        <link
+          rel="alternate"
+          href="https://alley-studio.com/"
           hrefLang="x-default"
         />
 
@@ -66,13 +80,11 @@ export default function RootLayout({
         <meta property="og:locale" content="zh_TW" />
       </head>
       <body
-        className={`${inter.variable} ${notoSansJP.variable} ${spaceGrotesk.variable} antialiased`}
+        className={`${inter.variable} ${notoSansJP.variable} ${notoSansTC.variable} antialiased`}
       >
-        <EmotionRootStyleRegistry>
-          <ThemeProvider>
-            <LanguageProvider>{children}</LanguageProvider>
-          </ThemeProvider>
-        </EmotionRootStyleRegistry>
+        <ThemeProvider>
+          <LanguageProvider>{children}</LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

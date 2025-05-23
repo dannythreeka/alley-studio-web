@@ -37,7 +37,7 @@ const AboutSection: FC = () => {
             <p className="text-gray">{t('our_philosophy_2')}</p>
           </div>
         </motion.div>
-
+        {/* 
         <motion.div
           className="grid grid-cols-2 gap-4"
           initial={{ opacity: 0, y: 30 }}
@@ -71,7 +71,7 @@ const AboutSection: FC = () => {
               <li>User-centered approach</li>
             </ul>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </Section>
   );

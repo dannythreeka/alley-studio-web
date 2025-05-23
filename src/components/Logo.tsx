@@ -16,19 +16,19 @@ const Logo: FC<LogoProps> = ({ className = '' }) => {
     >
       <div className="h-10 w-10 mr-3 relative">
         <Image
-          src="/images/logo.svg"
-          alt="MINI DEV Logo"
+          src="/images/alley-studio-logo.svg"
+          alt="Alley Studio Logo"
           width={40}
           height={40}
           className="rounded-sm"
         />
       </div>
       <div className="flex flex-col">
-        <span className="text-xl font-bold tracking-wider font-[var(--font-space-grotesk)]">
-          MINI DEV
+        <span className="text-xl font-bold tracking-wider font-[var(--font-noto-sans-jp)]">
+          巷製所
         </span>
         <span className="text-xs text-gray tracking-wide font-[var(--font-noto-sans-jp)]">
-          微開發工作室
+          Alley Studio
         </span>
       </div>
     </motion.div>

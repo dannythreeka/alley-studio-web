@@ -85,7 +85,7 @@ const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose, project }) => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             {/* Close button */}
             <button
@@ -161,11 +161,7 @@ const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose, project }) => {
 
               {project.link && (
                 <div className="mt-6">
-                  <Button
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Button href={project.link} rel="noopener noreferrer">
                     View Project
                   </Button>
                 </div>

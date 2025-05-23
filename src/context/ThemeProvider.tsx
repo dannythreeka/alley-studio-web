@@ -7,9 +7,6 @@ import {
   ReactNode,
   useEffect,
 } from 'react';
-import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { getTheme } from '@/theme/mui-theme';
 
 type Theme = 'light' | 'dark';
 
@@ -29,7 +26,7 @@ export const useTheme = (): ThemeContextType => {
 };
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
   // Effect for initial theme setup
@@ -42,22 +39,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setTheme(savedTheme as Theme);
       if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
       }
     } else {
-      // Otherwise check system preference
-      const isDarkMode = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      if (isDarkMode) {
-        setTheme('dark');
-        document.documentElement.classList.add('dark');
-      }
+      // Set dark mode as default
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     }
   }, []);
 
   // Toggle theme function
   const toggleTheme = () => {
-    setTheme((prevTheme) => {
+    setTheme(prevTheme => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
 
@@ -67,28 +61,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         document.documentElement.classList.remove('dark');
       }
 
+      // This helps update Tailwind dark mode classes
+      document.documentElement.setAttribute('data-mode', newTheme);
+
       return newTheme;
     });
   };
 
-  // Get MUI theme based on current mode
-  const muiTheme = getTheme(theme);
-
-  // During initial mount, still provide context to avoid errors
+  // Avoid rendering with incorrect theme
   if (!mounted) {
-    return (
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        {children}
-      </ThemeContext.Provider>
-    );
+    return null;
   }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <MUIThemeProvider theme={muiTheme}>
-        <CssBaseline enableColorScheme />
-        {children}
-      </MUIThemeProvider>
+      <div className={theme === 'dark' ? 'dark' : ''}>{children}</div>
     </ThemeContext.Provider>
   );
 }

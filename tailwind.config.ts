@@ -22,6 +22,10 @@ export default {
         'gray-dark': 'var(--gray-dark)',
         gray: 'var(--gray)',
       },
+      fontFamily: {
+        jp: ['var(--font-noto-sans-jp)'],
+        tc: ['var(--font-noto-sans-tc)'],
+      },
     },
   },
   plugins: [],
