@@ -84,6 +84,7 @@ const PageLoader: FC = () => {
         {loading && (
           <motion.div
             className="fixed inset-0 bg-background z-[100] flex items-center justify-center"
+            data-testid="page-loader-container" // Added testid
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -91,7 +92,7 @@ const PageLoader: FC = () => {
             aria-hidden={!loading}
           >
             <div className="flex flex-col items-center space-y-6">
-              <motion.div className="relative" variants={logoVariants}>
+              <motion.div className="relative" data-testid="page-loader-logo-container" variants={logoVariants}>
                 <div className="w-24 h-24 relative">
                   <Image
                     src="/images/alley-studio-logo.svg"
@@ -102,6 +103,7 @@ const PageLoader: FC = () => {
                 </div>
                 <motion.div
                   className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full opacity-80"
+                  data-testid="page-loader-spinner" // Added testid
                   animate={{ rotate: 360 }}
                   transition={{
                     duration: 1.5,
@@ -113,6 +115,7 @@ const PageLoader: FC = () => {
 
               <motion.div
                 className="text-3xl font-bold tracking-wider font-[var(--font-space-grotesk)] text-primary"
+                data-testid="page-loader-text-main" // Added testid
                 variants={textVariants}
               >
                 ALLEY STUDIO
@@ -120,6 +123,7 @@ const PageLoader: FC = () => {
 
               <motion.div
                 className="text-md text-gray font-[var(--font-noto-sans-jp)]"
+                data-testid="page-loader-text-sub" // Added testid
                 variants={textVariants}
               >
                 巷製所
